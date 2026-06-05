@@ -1,0 +1,37 @@
+column_name,data_type,description,example_value
+transaction_id,str,ID unik transaksi,tx_00000021
+user_id,str,ID unik pengguna (user_0001 - user_0175),user_0002
+transaction_date,datetime64[us],Tanggal transaksi,2026-04-01 00:00:00
+amount,int64,Jumlah transaksi dalam Rupiah,34000
+transaction_type,str,Tipe transaksi: pengeluaran / pemasukan,pengeluaran
+description,str,Deskripsi transaksi,naik TransJakarta
+category,str,Kategori transaksi (12 kategori),transportasi
+merchant,str,Nama merchant/toko,TransJakarta
+payment_method,str,Metode pembayaran,debit
+is_synthetic_anomaly,bool,Flag anomali sintetis (string),False
+is_anomaly,object,Flag anomali (boolean),nan
+year,int32,Tahun transaksi,2026
+month,int32,Bulan transaksi (1-12),4
+day_of_week,int32,"Hari dalam seminggu (0=Senin, 6=Minggu)",2
+is_weekend,int64,"1 jika weekend, 0 jika weekday",0
+user_segment,str,Segmen user,pekerja_tetap
+monthly_income,int64,Pendapatan bulanan dalam Rupiah,6500000
+has_savings,bool,Boolean: apakah punya tabungan,True
+has_debt,bool,Boolean: apakah punya hutang,True
+month_year,period[M],Periode bulan (YYYY-MM),2026-04
+spending_ratio,float64,Rasio amount / monthly_income,0.005230769230769231
+is_large_transaction,int64,1 jika transaksi > 50% income,0
+day_of_month,int32,Tanggal dalam bulan (1-31),1
+days_since_salary,int64,Hari sejak tanggal gajian (0-30),6
+quarter,int32,Kuartal (1-4),2
+cat_makanan,int64,1 jika kategori makanan,0
+cat_transportasi,int64,1 jika kategori transportasi,1
+cat_hiburan,int64,1 jika kategori hiburan,0
+cat_belanja,int64,1 jika kategori belanja,0
+cat_tagihan,int64,1 jika kategori tagihan,0
+cat_kesehatan,int64,1 jika kategori kesehatan,0
+cat_pendidikan,int64,1 jika kategori pendidikan,0
+segment_encoded,int64,Encoded segment,1
+category_encoded,int64,Encoded category,11
+tx_type_encoded,int64,Encoded transaction type,1
+payment_encoded,int64,Encoded payment method,3

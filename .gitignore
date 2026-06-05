@@ -46,9 +46,10 @@ ml-models/tensorboard_logs/
 ai-service/app/models/weights/
 
 # Data science raw/generated data (too large for git)
-data-science/synthetic_v2/raw/
-data-science/synthetic_v2/output/
-data-science/data/*.csv
+# NOTE: Disabled for Streamlit Cloud deployment - data files needed
+# data-science/synthetic_v2/raw/
+# data-science/synthetic_v2/output/
+# data-science/data/*.csv
 data-science/eda_*.png
 
 # ========================
