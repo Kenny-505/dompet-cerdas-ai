@@ -10,6 +10,19 @@
 
 ---
 
+## 📊 Live Dashboard
+
+Akses **Data Science Dashboard** (Streamlit):  
+👉 **[https://dompet-cerdas-ai-kcdbiqytafkyiepznsa475.streamlit.app/](https://dompet-cerdas-ai-kcdbiqytafkyiepznsa475.streamlit.app/)**
+
+Dashboard menampilkan:
+- 📈 EDA & Visualisasi dataset
+- 🔍 Explanatory Analysis (7 pertanyaan bisnis)
+- 🧪 A/B Testing simulasi AI recommendation
+- 🤖 Model Performance metrics
+
+---
+
 ## 🏗️ Arsitektur
 
 ```
