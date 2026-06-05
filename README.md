@@ -6,6 +6,7 @@
 [![Backend](https://img.shields.io/badge/Backend-Express.js-339933?logo=node.js)](./backend)
 [![AI Service](https://img.shields.io/badge/AI-FastAPI-009688?logo=fastapi)](./ai-service)
 [![Database](https://img.shields.io/badge/DB-Supabase%20PostgreSQL-3ECF8E?logo=supabase)](https://supabase.com)
+[![Streamlit](https://img.shields.io/badge/Analytics-Streamlit-FF4B4B?logo=streamlit)](https://dompet-cerdas-ai-kcdbiqytafkyiepznsa475.streamlit.app/)
 
 ---
 
