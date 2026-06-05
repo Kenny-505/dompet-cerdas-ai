@@ -6,5 +6,5 @@ jupyter
 ipykernel
 nbformat
 scikit-learn
-tensorflow
 streamlit
+scipy
