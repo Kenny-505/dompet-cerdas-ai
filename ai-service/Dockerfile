@@ -14,13 +14,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy AI service code
 COPY app/ ./app/
-COPY tests/ ./tests/
+# tests/ tidak perlu di-copy untuk production deployment
 
-# Copy model files from ml-models sibling directory
-# In Railway, we deploy from monorepo root, so ml-models is a sibling
-COPY ../ml-models/*.keras ./ml-models/
-COPY ../ml-models/*.pkl ./ml-models/
-COPY ../ml-models/*.json ./ml-models/
+# Copy model files (now inside ai-service/ml-models/)
+COPY ml-models/ ./ml-models/
 
 # Set models directory env var
 ENV MODELS_DIR=/app/ml-models
