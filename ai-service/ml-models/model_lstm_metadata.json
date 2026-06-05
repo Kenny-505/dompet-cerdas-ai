@@ -1,0 +1,27 @@
+{
+  "model_type": "LSTM",
+  "input_shape": [
+    3,
+    18
+  ],
+  "output_dim": 18,
+  "loss": "AsymmetricMSE",
+  "categories": [
+    "makanan",
+    "transportasi",
+    "belanja",
+    "tagihan",
+    "hiburan",
+    "kesehatan",
+    "pendidikan",
+    "kos_sewa",
+    "lainnya"
+  ],
+  "n_categories": 9,
+  "features_per_category": 2,
+  "timesteps": 3,
+  "metrics": {
+    "mae": 144785.96875,
+    "rmse": 317835.83062958776
+  }
+}
