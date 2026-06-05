@@ -1,0 +1,227 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Users ────────────────────────────────────────────────────────────────────
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  name         String
+  phone        String?
+  avatarUrl    String?  @map("avatar_url")
+  currency     String   @default("IDR")
+  monthlyIncome Decimal? @map("monthly_income") @db.Decimal(15, 2)
+  userSegment  String   @default("pekerja_tetap") @map("user_segment")
+  hasSavings   Boolean  @default(false) @map("has_savings")
+  hasDebt      Boolean  @default(false) @map("has_debt")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  refreshTokens          RefreshToken[]
+  transactions           Transaction[]
+  userBudgetSettings     UserBudgetSetting[]
+  budgetCategoryAllocs   BudgetCategoryAllocation[]
+  financialHealthScores  FinancialHealthScore[]
+  spendingPredictions    SpendingPrediction[]
+  anomalyAlerts          AnomalyAlert[]
+  chatHistories          ChatHistory[]
+  notifications          Notification[]
+
+  @@map("users")
+}
+
+// ─── Refresh Tokens ───────────────────────────────────────────────────────────
+model RefreshToken {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  token     String   @unique
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("refresh_tokens")
+}
+
+// ─── Categories ───────────────────────────────────────────────────────────────
+model Category {
+  id    String @id @default(cuid())
+  slug  String @unique // e.g. "makanan", "transportasi"
+  name  String          // e.g. "Makanan"
+  icon  String?
+  color String?
+  type  String  @default("expense") // "expense" | "income"
+
+  transactions            Transaction[]
+  budgetCategoryAllocs    BudgetCategoryAllocation[]
+
+  @@map("categories")
+}
+
+// ─── Transactions ─────────────────────────────────────────────────────────────
+model Transaction {
+  id          String          @id @default(cuid())
+  userId      String          @map("user_id")
+  categoryId  String?         @map("category_id")
+  type        TransactionType
+  amount      Decimal         @db.Decimal(15, 2)
+  description String
+  note        String?
+  date        DateTime
+  isAnomaly   Boolean         @default(false) @map("is_anomaly")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+
+  user          User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category      Category?     @relation(fields: [categoryId], references: [id])
+  anomalyAlerts AnomalyAlert[]
+
+  @@index([userId, date])
+  @@map("transactions")
+}
+
+enum TransactionType {
+  income
+  expense
+}
+
+// ─── User Budget Settings ─────────────────────────────────────────────────────
+model UserBudgetSetting {
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  monthYear       String   @map("month_year") // Format: "2024-01"
+  totalBudget     Decimal  @map("total_budget") @db.Decimal(15, 2)
+  needsPercent    Decimal  @default(50) @map("needs_percent") @db.Decimal(5, 2)
+  wantsPercent    Decimal  @default(30) @map("wants_percent") @db.Decimal(5, 2)
+  savingsPercent  Decimal  @default(20) @map("savings_percent") @db.Decimal(5, 2)
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, monthYear])
+  @@map("user_budget_settings")
+}
+
+// ─── Budget Category Allocations ──────────────────────────────────────────────
+model BudgetCategoryAllocation {
+  id          String   @id @default(cuid())
+  userId      String   @map("user_id")
+  categoryId  String   @map("category_id")
+  monthYear   String   @map("month_year")
+  budgetAmount Decimal @map("budget_amount") @db.Decimal(15, 2)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@unique([userId, categoryId, monthYear])
+  @@map("budget_category_allocations")
+}
+
+// ─── Financial Health Scores ──────────────────────────────────────────────────
+model FinancialHealthScore {
+  id            String   @id @default(cuid())
+  userId        String   @map("user_id")
+  monthYear     String   @map("month_year")
+  score         Decimal  @db.Decimal(5, 2)   // 0–100
+  savingsRate   Decimal? @map("savings_rate") @db.Decimal(5, 2)
+  budgetAdhere  Decimal? @map("budget_adherence") @db.Decimal(5, 2)
+  spendingStab  Decimal? @map("spending_stability") @db.Decimal(5, 2)
+  details       Json?
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, monthYear])
+  @@map("financial_health_scores")
+}
+
+// ─── Spending Predictions ─────────────────────────────────────────────────────
+model SpendingPrediction {
+  id              String   @id @default(cuid())
+  userId          String   @map("user_id")
+  targetMonth     String   @map("target_month")   // "2024-02"
+  categorySlug    String   @default("__total") @map("category_slug")
+  predictedAmount Decimal  @map("predicted_amount") @db.Decimal(15, 2)
+  confidence      Decimal? @db.Decimal(5, 4)
+  modelVersion    String?  @map("model_version")
+  createdAt       DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, targetMonth, categorySlug])
+  @@map("spending_predictions")
+}
+
+// ─── Anomaly Alerts ───────────────────────────────────────────────────────────
+model AnomalyAlert {
+  id              String      @id @default(cuid())
+  userId          String      @map("user_id")
+  transactionId   String      @map("transaction_id")
+  anomalyScore    Decimal?    @map("anomaly_score") @db.Decimal(5, 4)
+  reason          String?
+  isResolved      Boolean     @default(false) @map("is_resolved")
+  createdAt       DateTime    @default(now()) @map("created_at")
+
+  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+  @@map("anomaly_alerts")
+}
+
+// ─── Chat Histories ───────────────────────────────────────────────────────────
+model ChatHistory {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  role      ChatRole
+  content   String
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("chat_histories")
+}
+
+enum ChatRole {
+  user
+  assistant
+}
+
+// ─── Notifications ────────────────────────────────────────────────────────────
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String           @map("user_id")
+  type      NotificationType
+  title     String
+  message   String
+  isRead    Boolean          @default(false) @map("is_read")
+  metadata  Json?
+  createdAt DateTime         @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, isRead])
+  @@map("notifications")
+}
+
+enum NotificationType {
+  budget_warning
+  anomaly_detected
+  health_score_update
+  prediction_ready
+  system
+}

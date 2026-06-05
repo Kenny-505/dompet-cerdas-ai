@@ -1,0 +1,59 @@
+{
+  "model_type": "DenseNN_HealthScore",
+  "numeric_features": [
+    "monthly_income",
+    "spending_ratio",
+    "savings_ratio",
+    "budget_utilization",
+    "has_savings",
+    "has_debt",
+    "debt_ratio",
+    "expense_volatility",
+    "n_transactions",
+    "top_category_ratio"
+  ],
+  "segments": [
+    "pelajar_mahasiswa",
+    "pekerja_tetap",
+    "freelancer"
+  ],
+  "n_segments": 3,
+  "n_numeric": 10,
+  "embedding_dim": 8,
+  "mixed_dim": 32,
+  "scaler": "StandardScaler",
+  "target_range": [
+    0,
+    100
+  ],
+  "metrics": {
+    "mae": 1.8132,
+    "rmse": 2.4908,
+    "r2": 0.9795,
+    "n_test_samples": 251
+  },
+  "per_segment_metrics": {
+    "pelajar_mahasiswa": {
+      "n_samples": 42,
+      "mae": 2.3185,
+      "r2": 0.9737
+    },
+    "pekerja_tetap": {
+      "n_samples": 126,
+      "mae": 1.4463,
+      "r2": 0.9865
+    },
+    "freelancer": {
+      "n_samples": 83,
+      "mae": 2.1146,
+      "r2": 0.9598
+    }
+  },
+  "training": {
+    "epochs_trained": 101,
+    "best_val_loss": 4.341,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "early_stopping_patience": 20
+  }
+}

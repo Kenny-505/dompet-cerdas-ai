@@ -1,0 +1,14 @@
+{
+  "belanja": 0,
+  "freelance_bonus": 1,
+  "gaji": 2,
+  "hiburan": 3,
+  "kesehatan": 4,
+  "kos_sewa": 5,
+  "lainnya": 6,
+  "makanan": 7,
+  "pemasukan_lain": 8,
+  "pendidikan": 9,
+  "tagihan": 10,
+  "transportasi": 11
+}

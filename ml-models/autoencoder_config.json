@@ -1,0 +1,71 @@
+{
+  "model_type": "autoencoder_anomaly",
+  "input_dim": 11,
+  "encoding_dim": 32,
+  "hidden_dims": [
+    64,
+    48
+  ],
+  "feature_cols": [
+    "amount_log",
+    "category_id",
+    "payment_method_id",
+    "day_of_week",
+    "day_of_month",
+    "user_avg_amount",
+    "category_avg_amount",
+    "amount_to_user_avg_ratio",
+    "amount_to_category_avg_ratio",
+    "budget_utilization",
+    "monthly_income_ratio"
+  ],
+  "threshold": 0.005286092404276133,
+  "threshold_percentile": 95,
+  "scaler_mean": [
+    10.859013279380767,
+    2.4949289786191113,
+    2.04284302176003,
+    3.0152469160877984,
+    15.730728087635915,
+    91277.64823789253,
+    91222.45705536951,
+    0.9969067917562797,
+    0.9964290877387978,
+    0.984719615545609,
+    0.014246058814969716
+  ],
+  "scaler_scale": [
+    1.0342519763261477,
+    2.6785834737355785,
+    1.4357859010530776,
+    2.004324419824954,
+    8.792108819227806,
+    59000.89301738542,
+    77062.68359779417,
+    1.0177548817363176,
+    1.0062988869020846,
+    0.6654499369780226,
+    0.014382639947153443
+  ],
+  "metrics": {
+    "threshold": 0.005286092404276133,
+    "threshold_percentile": 95,
+    "test_total": 16011,
+    "test_anomaly_count": 321,
+    "test_tp": 313,
+    "test_fp": 746,
+    "test_fn": 8,
+    "test_tn": 14944,
+    "test_precision": 0.2956,
+    "test_recall": 0.9751,
+    "test_f1": 0.4536,
+    "test_accuracy": 0.9529,
+    "val_recon_error_mean": 0.002494,
+    "val_recon_error_std": 0.005562,
+    "train_recon_error_mean": 0.002366,
+    "train_recon_error_std": 0.003344
+  },
+  "training_epochs": 50,
+  "best_val_loss": 0.002494,
+  "training_method": "tf.GradientTape"
+}

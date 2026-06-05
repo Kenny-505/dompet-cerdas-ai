@@ -1,0 +1,12 @@
+fastapi
+uvicorn
+pydantic
+pydantic-settings
+python-multipart
+python-dotenv
+numpy
+python-dateutil
+scikit-learn
+tensorflow
+httpx
+groq

@@ -1,0 +1,96 @@
+# ========================
+# Node / JavaScript
+# ========================
+node_modules/
+dist/
+build/
+.next/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ========================
+# Python / FastAPI
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+.Python
+venv/
+env/
+.venv/
+ENV/
+*.egg-info/
+dist/
+.eggs/
+.pytest_cache/
+.mypy_cache/
+htmlcov/
+.coverage
+
+# ========================
+# ML Models & Artifacts
+# ========================
+# *.keras  — DISABLED: model files needed for deployment
+# *.h5     — DISABLED: model files needed for deployment
+# *.pkl    — DISABLED: scaler/tokenizer needed for deployment
+*.joblib
+*.npy
+*.npz
+ml-models/artifacts/
+ml-models/venv312/
+ml-models/tensorboard_logs/
+ai-service/app/models/weights/
+
+# Data science raw/generated data (too large for git)
+data-science/synthetic_v2/raw/
+data-science/synthetic_v2/output/
+data-science/data/*.csv
+data-science/eda_*.png
+
+# ========================
+# Environment Variables
+# ========================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env
+
+# ========================
+# Prisma
+# ========================
+# migrations are needed for deployment — do NOT ignore migration.sql
+# backend/prisma/migrations/*/migration.sql
+
+# ========================
+# OS & Editor
+# ========================
+.DS_Store
+Thumbs.db
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# ========================
+# Test Artifacts
+# ========================
+test-results/
+playwright-report/
+*.test-results.json
+
+# ========================
+# Misc
+# ========================
+*.zip
+*.tar.gz
+coverage/
+.turbo/
+
+/docs/
+.vscode/
